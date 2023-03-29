@@ -12,7 +12,7 @@ class Home(API):
         self.service(1)
 
 
-class Post(API, ABC):
+class Post(API):
 
     def get(self):
         self.service(2)
@@ -21,7 +21,7 @@ class Post(API, ABC):
         self._post()
 
 
-class Put(API, ABC):
+class Put(API):
 
     def get(self):
         self.service(1)
@@ -30,7 +30,7 @@ class Put(API, ABC):
         self._put()
 
 
-class Delete(API, ABC):
+class Delete(API):
 
     def delete(self):
         self._remove()
