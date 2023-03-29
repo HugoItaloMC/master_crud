@@ -1,8 +1,8 @@
 from typing import Any
 from tornado import httputil
 
-from model import Calcados
-from interfaces.pagine import APIMeta, Page
+from app.model import Calcados
+from abstract.pagine import APIMeta, Page
 
 
 class Index(Page):

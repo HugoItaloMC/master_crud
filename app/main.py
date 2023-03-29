@@ -1,5 +1,5 @@
 
-from api import API
+from app.api import API
 
 
 class Home(API):

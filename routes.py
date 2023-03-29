@@ -1,5 +1,5 @@
 from tornado.web import Application
-from main import Home, Post, Put, Delete
+from app.main import Home, Post, Put, Delete
 
 class Routes(Application):
     def __init__(self):

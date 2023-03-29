@@ -1,4 +1,4 @@
-from interfaces.single import Singleton
+from abstract.single import Singleton
 import sqlite3
 
 # Configuracão com o banco de dados

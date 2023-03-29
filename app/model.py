@@ -1,4 +1,4 @@
-from interfaces.label import Produto
+from abstract.label import Produto
 from config.db_session import DataBase
 
 import json

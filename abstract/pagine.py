@@ -8,7 +8,7 @@ class Page(RequestHandler, metaclass=ABCMeta):
         # Atribuir Servicos
         (...)
 
-class APIMeta(RequestHandler, metaclass=ABCMeta):
+class APIMeta(metaclass=ABCMeta):
     # Interface API
     @abstractmethod
     def _post(self):
