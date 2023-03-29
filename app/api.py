@@ -2,40 +2,12 @@ from typing import Any
 from tornado import httputil
 
 from app.model import Calcados
-from abstract.pagine import APIMeta, Page
+from abstract.pagine import APIMeta
 
 
-class Index(Page):
+class API(APIMeta):
 
-    def __init__(self, application: "Application", request: httputil.HTTPServerRequest, **kwargs: Any):
-        super().__init__(application, request, **kwargs)
-
-    def home_2handler(self):
-        produto: Calcados = Calcados
-        self.manager(opp='GETS')
-        self.render('index.html', produto=produto)
-
-    def new_2handler(self):
-        self.render('new.html')
-
-    def update_2handler(self):
-        self.render('update.html')
-
-    def service(self, opp: int):
-        while (op := opp != None):
-            if op == 1:
-                self.home_2handler()
-            elif op == 2:
-                self.new_2handler()
-            elif op == 3:
-                self.update_2handler()
-            else:
-                ...
-
-
-
-class API(APIMeta, Index):
-
+    @staticmethod
     def _post(self):
 
         produto: Calcados = Calcados

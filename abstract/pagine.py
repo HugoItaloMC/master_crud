@@ -1,12 +1,6 @@
-from tornado.web import RequestHandler
+
 from abc import ABCMeta, abstractmethod
 
-class Page(RequestHandler, metaclass=ABCMeta):
-
-    @abstractmethod
-    def service(self):
-        # Atribuir Servicos
-        (...)
 
 class APIMeta(metaclass=ABCMeta):
     # Interface API

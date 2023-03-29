@@ -9,7 +9,6 @@ class Calcados(Produto):
 
     def __init__(self):
         super().__init__(self.first_name, self.mind_name, self.last_name, self.price, self.size)
-        self.label = Produto.label()
 
     def poster(self):
         _query = f'INSERT INTO produto (first_name, mind_name, last_name, price, size) VALUES("{self.first_name}", "{self.mind_name}", "{self.last_name}", {float(self.price)}, "{self.size}")'
@@ -41,18 +40,6 @@ class Calcados(Produto):
                            )
         return produto
 
-    def manager(self, opp: str):
-        while op := opp != None:
-            if op == 'POST':
-                Calcados.poster(self)
-            elif op == 'PUT':
-                Calcados.updater(self)
-            elif op == 'DELETE':
-                Calcados.remover(self)
-            elif op == 'GETS':
-                Calcados.getall(self)
-            else:
-                ...
     def __iter__(self):
         yield from{
             "Make": (self.first_name + self.mind_name + self.last_name),
@@ -60,6 +47,6 @@ class Calcados(Produto):
             "size": self.size
         }.items()
 
-    def label(self):
+    def __str__(self):
         Calcados.__str__ = json.dumps(dict(self), ensure_ascii=False)
         return self.__str__()

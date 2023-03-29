@@ -1,5 +1,9 @@
+from abc import ABC
 
 from app.api import API
+from config._2handler import Index
+
+renderer = Index
 
 
 class Home(API):
@@ -8,7 +12,7 @@ class Home(API):
         self.service(1)
 
 
-class Post(API):
+class Post(API, ABC):
 
     def get(self):
         self.service(2)
@@ -16,7 +20,8 @@ class Post(API):
     def post(self):
         self._post()
 
-class Put(API):
+
+class Put(API, ABC):
 
     def get(self):
         self.service(1)
@@ -25,7 +30,7 @@ class Put(API):
         self._put()
 
 
-class Delete(API):
+class Delete(API, ABC):
 
     def delete(self):
         self._remove()
