@@ -6,7 +6,6 @@ from abstract.pagine import APIMeta
 
 
 class API(APIMeta):
-
     @staticmethod
     def _post(self):
 

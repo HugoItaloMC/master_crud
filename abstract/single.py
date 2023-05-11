@@ -1,10 +1,11 @@
 from typing import Dict
+from weakref import WeakKeyDictionary
 
 
 class Singleton(type):
 
     # Controle de instâncias de objetos
-    __instance: Dict = {}
+    __instance = WeakKeyDictionary()
 
     def __call__(cls, *args, **kwargs):
         if cls not in cls.__instance:
