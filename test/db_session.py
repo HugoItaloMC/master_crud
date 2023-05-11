@@ -5,16 +5,21 @@ from weakref import WeakKeyDictionary
 
 
 class DataBase:
-    _instance = {}
+    _instance = None
 
-    def __new__(cls, database):
+    def __call__(cls, *args, **kwargs):
         if cls._instance is None:
-            cls._instance[database] = super(DataBase, cls).__new__(cls)
-            cls._instance[database].db = sqlite3.connect(database)
-        return cls._instance[database]
+            cls._instance = super(DataBase, cls).__call__(cls, *args, **kwargs)
+            cls._instance.db = None
+        return cls._instance
 
+    def create_db(self, database):
+        if self._instance is None:
+            self.db = sqlite3.connect(database)
+        else:
+            print("Run conection now !! ")
     def disconect(self):
-        if self.db is not None:
+        if self.db:
             self.db.close()
             self.db = None
             print("Closed Conexion")
@@ -31,8 +36,11 @@ class DataBase:
         else:
             print("Not query, state dont running")
 
+
 if __name__ == '__main__':
-    db1 = DataBase('storage.db')
+    db1 = DataBase()
+    db1.create_db('storage1.db')
     print(id(db1))
-    db2 = DataBase('storage2.db')
+    db2 = DataBase()
+    db2.create_db('storage2.db')
     print(id(db2))
