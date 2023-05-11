@@ -1,4 +1,4 @@
-from db_session import DataBase
+from test_db_session import DataBase
 
 class Model:
 
@@ -21,11 +21,11 @@ class Product(Model):
 
     def create_table(self):
         query = f'CREATE TABLE IF NOT EXISTS produto (id INTEGER PRIMARY KEY AUTOINCREMENT, fname TEXT, lname TEXT, size INTEGER)'
-        self.dbset.session(query)
+        self.dbset.execute_query(query)
 
     def post_table(self):
         query = 'INSERT INTO produto (fname, lname, size) VALUES(%s, %s, %s)' % (self.fname, self.lname, float(self.size))
-
+        self.dbset.execute_query(query)
 
 if __name__ == '__main__':
     produto = Product()

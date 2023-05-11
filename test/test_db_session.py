@@ -8,21 +8,28 @@ class DataBase:
     _instance = None
 
     def __call__(cls, *args, **kwargs):
+        # To behaviours from singletons patterns in objects Python
+        # Know here is writening from magic method `__call__`
         if cls._instance is None:
             cls._instance = super(DataBase, cls).__call__(cls, *args, **kwargs)
-            cls._instance.db = None
         return cls._instance
+
+    def __getattr__(self, item):
+        value = item  # Here let content know operation
+        setattr(self, item, value)  # Create attr in object
+        return value
 
     def create_db(self, database):
         if self._instance is None:
             self.db = sqlite3.connect(database)
         else:
             print("Run conection now !! ")
+
     def disconect(self):
         if self.db:
             self.db.close()
             self.db = None
-            print("Closed Conexion")
+            print("Close Conection")
         else:
             print("Dont connect anyway")
 
