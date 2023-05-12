@@ -14,16 +14,8 @@ class DataBase:
             cls._instance = super(DataBase, cls).__call__(cls, *args, **kwargs)
         return cls._instance
 
-    def __getattr__(self, item):
-        value = item  # Here let content know operation
-        setattr(self, item, value)  # Create attr in object
-        return value
-
-    def create_db(self, database):
-        if self._instance is None:
-            self.db = sqlite3.connect(database)
-        else:
-            print("Run conection now !! ")
+    def __init__(self):
+        self.db = sqlite3.connect('storage.db')
 
     def disconect(self):
         if self.db:
@@ -33,15 +25,6 @@ class DataBase:
         else:
             print("Dont connect anyway")
 
-    def execute_query(self, query):
-        if self.db is not None:
-            cursor = self.db.cursor()
-            cursor.execute(query)
-            result = cursor.fetchall()
-            cursor.close()
-            return result
-        else:
-            print("Not query, state dont running")
 
 
 if __name__ == '__main__':
