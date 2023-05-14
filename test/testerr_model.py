@@ -1,5 +1,6 @@
 from test_db_session import DataBase
 
+
 class Model:
 
     def __init__(self):
@@ -23,29 +24,39 @@ class Product(Model):
         return super().__getattr__(item)
 
     def create_table(self):
-        query = f'CREATE TABLE IF NOT EXISTS produto (id INTEGER PRIMARY KEY AUTOINCREMENT, fname TEXT, lname TEXT, size INTEGER)'
-        self.cursor.execute(query)
-        self.cursor.fetchall()
-        self.db.commit()
-        self.db.close()
+        query = f'CREATE TABLE IF NOT EXISTS produto (id INTEGER PRIMARY KEY AUTOINCREMENT, fname TEXT, lname TEXT, size INTEGER);'
+        self.dbset.execute_query(query)
 
+    def poster(self):
+        query = 'INSERT INTO produto (fname, lname, size) VALUES("%s", "%s", "%d");' % (
+            self.fname, self.lname, int(self.size))
+        self.dbset.execute_query(query)
 
-    def post_table(self):
-        query = 'INSERT INTO produto (fname, lname, size) VALUES("%s", "%s", "%d")' % (self.fname, self.lname, int(self.size))
-        self.cursor.execute(query)
-        self.cursor.fetchall()
-        self.db.commit()
-        self.db.close()
+    def put(self, id: int):
+        query = 'UPDATE produto SET fname = "%s", lname = "%s", size = "%d" WHERE id=%d;' % (
+            self.fname, self.lname, int(self.size), id)
+        self.dbset.execute_query(query)
 
+    def delete(self, id):
+        query = 'DELETE FROM produto WHERE id = "%d"' % id
+        self.dbset.execute_query(query)
 
 if __name__ == '__main__':
     produto = Product()
-    # Create Table
-    #  produto.create_table()
+    # Test 1 Create Table : OK
+    # produto.create_table()
 
-    # Insert Into
-    #  produto.fname = 'Adidas'
-    #  produto.lname = 'Tênis'
-    #  produto.size = '42'
-    #  produto.post_table()
+    # Test 2 Post  : OK
+    #produto.fname = 'Nike'
+    #produto.lname = 'Tênis'
+    #produto.size = '40'
+    #produto.poster()
 
+    #  Test 3 Put : OK
+    # produto.fname = 'Adidas'
+    # produto.lname = 'Camisa'
+    # produto.size = '25'
+    # produto.put(1)
+
+    # Test 4 Delete : OK
+    #  produto.delete(1)
