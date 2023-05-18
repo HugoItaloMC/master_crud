@@ -3,6 +3,10 @@ import sqlite3
 
 class DataBase:
     # Settings to database
+    def __getattr__(self, item):
+        value = item
+        setattr(self, item, value)
+        return value
 
     def __call__(cls, *args, **kwargs):
         # To behaviours from singletons patterns in objects Python
@@ -12,20 +16,19 @@ class DataBase:
         return cls._instance
 
     def __init__(self):
-        self.db = sqlite3.connect('storage.db')  # Create DB
+        self.dbset = sqlite3.connect('storage.db')
 
     def execute_query(self, query):
-        cursor = self.db.cursor()
+        cursor = self.dbset.cursor()
         cursor.execute(query)
         cursor.fetchall()
-        self.db.commit()
-        self.db.close()
+        self.dbset.commit()
 
 
     def disconect(self):
-        if self.db:
-            self.db.close()
-            self.db = None
+        if self.dbset:
+            self.dbset.close()
+            self.dbset = None
             print("Close Conection")
         else:
             print("Dont connect anyway")

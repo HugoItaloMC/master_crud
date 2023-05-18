@@ -21,3 +21,4 @@ if __name__ == '__main__':
     inst2 = Singleton()
     print(id(inst1),
           id(inst2))
+    print(Singleton())
