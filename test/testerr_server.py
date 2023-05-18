@@ -19,6 +19,9 @@ class Netting:
 
 class TestServer(Netting):
 
+    def __getattr__(self, item):
+        return super().__getattr__(item)
+
     def sockparser(self):
         # Begin server bind in host from socket
         # Server create thread to client_socket
@@ -45,13 +48,12 @@ if __name__ == '__main__':
     server = TestServer()
     server.target = 'localhost'
     server.port = 8080
-
     # Test Thread : OK
-    threads = []
+    threads = list()
     while not threads:
         thread = threading.Thread(target=server.sockparser)
         thread.start()
         threads.append(thread)
-
-    for line in threads:
-        line.join()
+    else:
+        for line in threads:
+            line.join()

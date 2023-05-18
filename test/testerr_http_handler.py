@@ -1,9 +1,12 @@
 # The handler to http method
+import http.server
 import json
+import urllib.parse
+
 from http.server import BaseHTTPRequestHandler
 from socketserver import BaseServer
 
-from testerr_repository import Api
+from testerr_api import Method
 
 
 class HandlerHttp(BaseHTTPRequestHandler):
@@ -13,26 +16,47 @@ class HandlerHttp(BaseHTTPRequestHandler):
         self._headers_buffer = []
 
     def do_POST(self):
-        if self.path == '/home':
-            # Read Body request by Json POST
-            length_util = int(self.headers['content-Length'])
-            content_body = self.rfile.read(length_util)
 
-            # Upload data to jason
-            require = json.loads(content_body.decode('utf-8'))
+        # POST >>
+        try:
+            if self.path == '/insert':
+                # Read Body request by Json POST
+                length_util = int(self.headers['content-Length'])
+                content_body = self.rfile.read(length_util)
 
-            # Insert data from api method for database
-            self.api = Api()
-            self.api.method(require)
+                # Insert data from api method for database and upload to json
+                self.api = Method()
+                self.api.post(content_body)
 
-            # Response Header's
-            data_require = {'message': 'Sucedfull Insert to DataBase '}
-            response = json.dumps(data_require).encode('utf-8')
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.send_header('Content-length', len(response))
-            self.end_headers()
-            self.wfile.write(response)
+                # Response Header's
+                data_require = {'message': 'Sucedfull Insert to DataBase '}
+                response = json.dumps(data_require).encode('utf-8')
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Content-length', len(response))
+                self.end_headers()
+                self.wfile.write(response)
+
+            # PUT >>
+            elif self.path.startswith('/update/'):
+                # Obter ID pelo end-point
+                id = int(urllib.parse.urlparse(self.path).path.split('/')[-1])
+                length_util = int(self.headers['content-length'])
+                content_body = self.rfile.read(length_util)
+
+                self.api = Method()
+                self.api.put(content_body, id)
+
+                data_require = {'message': 'Sucedfull Insert to DataBase '}
+                response = json.dumps(data_require).encode('utf-8')
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Content-length', len(response))
+                self.end_headers()
+                self.wfile.write(response)
+        except Exception as err:
+            if err == self.send_error(501):
+                self.send_response_only(501, message='error, %s not implemented error' % err)
 
 
 
