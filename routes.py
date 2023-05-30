@@ -1,20 +1,14 @@
 from tornado.web import Application
-from app.main import Home, Post, Put, Delete
+from app.main import Get, Post, Put, Delete
+
 
 class Routes(Application):
     def __init__(self):
 
         handlers = [
-            ('/home', Home),
-            ('/produto/new', Post),
-            ('/produto/update/(\d+)/id/(\d+)', Put),
-            ('/produto/delete/(\d+)', Delete)
+            ('/home', Get),
+            (r'/produto/new', Post),
+            (r'/produto/update/(\d+)', Put),
+            (r'/produto/delete/(\d+)', Delete)
         ]
-
-        settings = dict(
-            debug=True,
-            template_path='template',
-            static_path='static',
-        )
-
-        Application.__init__(self, handlers, **settings)
+        Application.__init__(self, handlers)

@@ -1,52 +1,40 @@
-from abstract.label import Produto
-from config.db_session import DataBase
-
-import json
-# Módulo de Manipulacao e Criacao dos dados (Dados Brutos, Modelos).
+from abstract.label import Model
 
 
-class Calcados(Produto):
+class Product(Model):
+    # The product by model
+    def __getattr__(self, attr):
+        return super().__getattr__(attr)
 
-    def __init__(self):
-        super().__init__(self.first_name, self.mind_name, self.last_name, self.price, self.size)
+    def create_table(self):
+        query = f'CREATE TABLE IF NOT EXISTS produto (id INTEGER PRIMARY KEY AUTOINCREMENT, fname TEXT, lname TEXT, size INTEGER);'
+        self.session.execute_query(query)
 
     def poster(self):
-        _query = f'INSERT INTO produto (first_name, mind_name, last_name, price, size) VALUES("{self.first_name}", "{self.mind_name}", "{self.last_name}", {float(self.price)}, "{self.size}")'
-        DataBase.session(_query)
+        query = 'INSERT INTO produto (fname, lname, size) VALUES("%s", "%s", "%d");' % (
+            self.fname, self.lname, int(self.size))
+        self.session.execute_query(query)
 
-    def updater(self):
-        _query = f'UPDATE produto SET first_name={self.first_name} mind_name={self.mind_name} last_name={self.last_name} price={self.price} size={self.size}WHERE id={self.id}'
-        DataBase.session(_query)
+    def put(self, id: int):
+        query = 'UPDATE produto SET fname = "%s", lname = "%s", size = "%d" WHERE id=%d;' % (
+            self.fname, self.lname, int(self.size), id)
+        self.session.execute_query(query)
 
-    def remover(self):
-        _query = f'DELETE FROM produto WHERE id={self.id}'
-        DataBase.session(_query)
+    def getan(self, id: int):
+        query = 'SELECT * FROM produto WHERE id="%d"' % id
+        return self.session.execute_query(query)
 
-    @staticmethod
-    def getall():
-        _query = 'SELECT * FROM produto'
-        DataBase.session(_query)
+    def geter(self):
+        query = 'SELECT * FROM produto'
+        return self.session.execute_query(query)
 
-    @staticmethod
-    def get_an(id):
-        _query = f'SELECT * FROM produto WHERE id={id}'
-        produto = DataBase.session(_query)[0]
-        produto = Calcados(id=produto[0],
-                           first_name=produto[1],
-                           mind_name=produto[2],
-                           last_name=produto[3],
-                           price=produto[4],
-                           size=produto[5]
-                           )
-        return produto
+    def delete(self, id):
+        query = 'DELETE FROM produto WHERE id="%d"' % id
+        self.session.execute_query(query)
 
-    def __iter__(self):
-        yield from{
-            "Make": (self.first_name + self.mind_name + self.last_name),
-            "price": self.price,
-            "size": self.size
-        }.items()
 
-    def __str__(self):
-        Calcados.__str__ = json.dumps(dict(self), ensure_ascii=False)
-        return self.__str__()
+if __name__ == '__main__':
+
+    produce = Product()
+    print(produce.geter())
+    print(produce.getan(1))

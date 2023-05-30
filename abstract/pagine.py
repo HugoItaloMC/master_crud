@@ -1,28 +1,31 @@
-
 from abc import ABCMeta, abstractmethod
 
-from config._2handler import Index
 
-class APIMeta(Index, metaclass=ABCMeta):
+class APIMeta(metaclass=ABCMeta):
    
+    def __getattr__(self, attr):
+        valur = attr
+        setattr(self, attr, valur)
+        return valur
+
     # Interface API
-   
-    @abstractmethod
-    def _post(self):
-        ...
 
     @abstractmethod
-    def _put(self):
-        ...
+    def _post(self, *args):
+        raise NotImplementedError
 
     @abstractmethod
-    def _remove(self):
-        ...
+    def _put(self, *args):
+        raise NotImplementedError
 
     @abstractmethod
-    def _getall(self):
-        ...
+    def _remove(self, *args):
+        raise NotImplementedError
+
+    @abstractmethod
+    def _getall(self, *args):
+        raise NotImplementedError
     
     @abstractmethod
-    def _get(self):
-        ...
+    def _get(self, *args):
+        raise NotImplementedError

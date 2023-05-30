@@ -1,50 +1,50 @@
-from typing import Any
-from tornado import httputil
+import json
 
-from app.model import Calcados
+from app.model import Product
 from abstract.pagine import APIMeta
 
 
 class API(APIMeta):
-    @staticmethod
-    def _post(self):
 
-        produto: Calcados = Calcados
+    def __init__(self):
+        super().__init__()
+        self.__produce = Product()
 
-        nome = self.get_argument('...', None)
-        marca = self.get_argument('...', None)
-        modelo = self.get_argument('...', None)
-        preco = self.get_argument('...', None)
-        tamanho = self.get_argument('...', None)
+    def __getattr__(self, attr):
+        super().__getattr__(attr)
 
-        produto.first_name = nome
-        produto.mind_name = marca
-        produto.last_name = modelo
-        produto.price = preco
-        produto.size = tamanho
-        produto.manager(opp='POST')
-        self.redirect('index.html')
+    # Methods follow http requests
 
-    def _put(self, id):
+    def _post(self, request_body):
+        require = json.loads(request_body.decode('utf-8'))
 
-        produto: Calcados = Calcados
-        nome = self.get_argument('...', None)
-        marca = self.get_argument('...', None)
-        modelo = self.get_argument('...', None)
-        preco = self.get_argument('...', None)
-        tamanho = self.get_argument('...', None)
+        self.__produce.create_table()
+        self.__produce.fname = require.get('fname')
+        self.__produce.lname = require.get('lname')
+        self.__produce.size = require.get('size')
+        self.__produce.poster()
 
-        produto.first_name = nome
-        produto.mind_name = marca
-        produto.last_name = modelo
-        produto.price = preco
-        produto.size = tamanho
+    def _put(self, request_body, id):
+        require = json.loads(request_body.dedoce('utf-8'))
 
-        produto.manager('PUT')
-        self.redirect('index.html')
+        self.__produce.fname = require.get('fname')
+        self.__produce.lname = require.get('lname')
+        self.__produce.size = require.get('size')
+        self.__produce.put(id)
+
+    def _get(self):
+       ...
+
+    def _getall(self):
+        # Recuperar dados do DB
+        require = self.__produce.geter()
+        return json.dumps({"Data": require})
 
     def _remove(self, id):
-        produto: Calcados = Calcados
-        produto.get_an(id)
-        produto.manager('DELETE')
-        self.redirect('index.html')
+        ...
+
+
+if __name__ == '__main__':
+    api = API()
+    getter = api._getall()
+    print(getter)

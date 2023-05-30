@@ -5,9 +5,19 @@ from weakref import WeakKeyDictionary
 class Singleton(type):
 
     # Controle de instâncias de objetos
-    __instance = WeakKeyDictionary()
+    def __new__(meta, name, bases, class_dict):
+        return type.__new__(meta, name, bases, class_dict)
 
     def __call__(cls, *args, **kwargs):
-        if cls not in cls.__instance:
-            cls.__instance[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls.__instance[cls]
+        if not hasattr(cls, '__instance'):
+            cls.__instance = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls.__instance
+
+
+if __name__ == '__main__':
+    class MetaTest(metaclass=Singleton):
+        ...
+
+
+    print(MetaTest.__class__, type(MetaTest)
+          )

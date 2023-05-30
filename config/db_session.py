@@ -1,23 +1,24 @@
-from abstract.single import Singleton
 import sqlite3
+
+from abstract.single import Singleton
 
 # Configuracão com o banco de dados
 
 
 class DataBase(metaclass=Singleton):
+    # Settings to database:
 
-    db = None
+    def __init__(self):
+        self._dbset = sqlite3.connect('storage.db')
 
-    def session(self, query):
-        if self not in self.db:
-            self.db = sqlite3.connect('./database.storage')
-            self.cursor = self.db.cursor()
-            try:
-                self.cursor.execute(query)
-                self.result = self.cursor.fetchall()
-                self.db.commit()
-            except Exception as err:
-                raise f":: Error as {err} Try new query content now ##"
-            finally:
-                self.db.close()
-        return DataBase.db()
+    def execute_query(self, query):
+        cursor = self._dbset.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        self._dbset.commit()
+        return results[::1]
+
+    def disconect(self):
+        if self._dbset:
+            self._dbset.close()
+            self._dbset = None

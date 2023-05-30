@@ -37,11 +37,13 @@ class Product(Model):
             self.fname, self.lname, int(self.size), id)
         self.session.execute_query(query)
 
-    def getan(self):
-        ...
+    def getan(self, id: int):
+        query = 'SELECT * FROM produto WHERE id="%d"' % id
+        return self.session.execute_query(query)
 
     def geter(self):
-        ...
+        query = 'SELECT * FROM produto'
+        return self.session.execute_query(query)
 
 
     def delete(self, id):
