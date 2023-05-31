@@ -13,11 +13,3 @@ class Singleton(type):
             cls.__instance = super(Singleton, cls).__call__(*args, **kwargs)
         return cls.__instance
 
-
-if __name__ == '__main__':
-    class MetaTest(metaclass=Singleton):
-        ...
-
-
-    print(MetaTest.__class__, type(MetaTest)
-          )

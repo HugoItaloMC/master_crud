@@ -13,7 +13,10 @@ class Singleton(type):
 
 
 if __name__ == '__main__':
-    inst1 = Singleton()
-    inst2 = Singleton()
+    class Meta(metaclass=Singleton):
+        ...
+
+    inst1 = Meta()
+    inst2 = Meta()
     print(id(inst1),
           id(inst2))

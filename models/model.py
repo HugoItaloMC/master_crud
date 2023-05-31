@@ -1,8 +1,11 @@
-from abstract.label import Model
+from models.utils.label import Model
 
 
 class Product(Model):
     # The product by model
+    def __init__(self):
+        super(__class__, self).__init__()
+
     def __getattr__(self, attr):
         return super().__getattr__(attr)
 
@@ -31,10 +34,3 @@ class Product(Model):
     def delete(self, id):
         query = 'DELETE FROM produto WHERE id="%d"' % id
         self.session.execute_query(query)
-
-
-if __name__ == '__main__':
-
-    produce = Product()
-    print(produce.geter())
-    print(produce.getan(1))

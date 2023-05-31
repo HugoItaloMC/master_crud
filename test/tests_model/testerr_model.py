@@ -1,6 +1,6 @@
 import sqlite3
 
-from .test_db_session import DataBase
+from tests_model.test_db_session import DataBase
 
 
 class Model:
@@ -18,7 +18,7 @@ class Model:
 class Product(Model):
 
     def __init__(self):
-        super().__init__()
+        super(__class__, self).__init__()
 
     def __getattr__(self, item):
         return super().__getattr__(item)
@@ -54,7 +54,7 @@ class Product(Model):
 if __name__ == '__main__':
     produto = Product()
     # Test 1 Create Table : OK
-    # produto.create_table()
+    #  produto.create_table()
 
     # Test 2 Post  : OK
     #produto.fname = 'Nike'
@@ -63,10 +63,13 @@ if __name__ == '__main__':
     #produto.poster()
 
     #  Test 3 Put : OK
-    # produto.fname = 'Adidas'
-    # produto.lname = 'Camisa'
-    # produto.size = '25'
-    # produto.put(1)
+    #produto.fname = 'Adidas'
+    #produto.lname = 'Camisa'
+    #produto.size = '25'
+    #produto.put(1)
 
     # Test 4 Delete : OK
-    #  produto.delete(1)
+    # produto.delete(1)
+
+    # Test 5 Get All:
+    print(produto.geter())

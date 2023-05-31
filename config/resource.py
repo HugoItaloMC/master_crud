@@ -1,8 +1,13 @@
 from abc import ABCMeta, abstractmethod
 
+from models.model import Product
+
 
 class APIMeta(metaclass=ABCMeta):
-   
+
+    def __init__(self):
+        self.produce = Product()
+
     def __getattr__(self, attr):
         valur = attr
         setattr(self, attr, valur)
@@ -11,21 +16,21 @@ class APIMeta(metaclass=ABCMeta):
     # Interface API
 
     @abstractmethod
-    def _post(self, *args):
+    def post(self, *args):
         raise NotImplementedError
 
     @abstractmethod
-    def _put(self, *args):
+    def put(self, *args):
         raise NotImplementedError
 
     @abstractmethod
-    def _remove(self, *args):
+    def remove(self, *args):
         raise NotImplementedError
 
     @abstractmethod
-    def _getall(self, *args):
+    def getall(self, *args):
         raise NotImplementedError
     
     @abstractmethod
-    def _get(self, *args):
+    def getter(self, *args):
         raise NotImplementedError

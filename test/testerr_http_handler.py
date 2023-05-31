@@ -1,18 +1,21 @@
 # The handler to http method
+import json
 from typing import Any
 
-import tornado.web
-from tornado import httputil
+from tornado.httputil import HTTPServerRequest
 from tornado.web import RequestHandler
 
 from testerr_api import Method
 
 
-class PostHandler(RequestHandler):
+class Handler(RequestHandler):
 
-    def __init__(self, application: "Application", request: httputil.HTTPServerRequest, **kwargs: Any):
+    def __init__(self, application: "Application", request: HTTPServerRequest, **kwargs: Any):
         super().__init__(application, request, **kwargs)
         self.api = Method()
+
+
+class PostHandler(Handler):
 
     def post(self):
         # Read content request:
@@ -22,11 +25,7 @@ class PostHandler(RequestHandler):
         self.api.post(content_body)
 
 
-class PutHandler(RequestHandler):
-
-    def __init__(self, application: "Application", request: httputil.HTTPServerRequest, **kwargs: Any):
-        super().__init__(application, request, **kwargs)
-        self.api = Method()
+class PutHandler(Handler):
 
     def put(self, id):
         # Read content request
@@ -39,8 +38,28 @@ class PutHandler(RequestHandler):
         self.api.put(content_body, id=id)
 
 
+class GetHandler(Handler):
+
+    def get(self):
+        response = self.api.getall()
+        self.set_header('Content-type', 'application/json')
+        self.write(response)
+
+
+class GetanHandler(Handler):
+
+    def get(self, id):
+        url_parse = self.request.path.split('/')
+        id_index = url_parse.index('home') + 1
+        id = int(url_parse[id_index])
+        response = self.api.getter(id)
+        self.set_header('Content-type', 'application/json')
+        self.write(response)
+
+
 if __name__ == '__main__':
     import requests
+
     # Test request POST: OK
     data = {"fname": "nike", "lname": "camisa", "size": "33"}  # Data to request
     require = requests.post('http://localhost:8000/home', json=data)
@@ -50,4 +69,3 @@ if __name__ == '__main__':
         print(response_require.get('message'))
     else:
         print("Error : ", require.status_code)
-

@@ -1,5 +1,5 @@
 # Interfaces de Modelos (Meta Models)
-from config.db_session import DataBase
+from models.utils.db_session import DataBase
 
 
 class Model(object):

@@ -12,8 +12,9 @@ class DataBase(metaclass=Singleton):
     def execute_query(self, query):
         cursor = self.dbset.cursor()
         cursor.execute(query)
-        cursor.fetchall()
+        results = cursor.fetchall()
         self.dbset.commit()
+        return results[::1]
 
     def disconect(self):
         if self.dbset:
