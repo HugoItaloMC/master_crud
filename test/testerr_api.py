@@ -1,10 +1,11 @@
 import json
-from threading import Lock
+from io import StringIO
+from threading import RLock
 
 from tests_model.testerr_model import Product
 
 
-class Descriptor:
+class LazyAttr:
 
     def __init__(self):
         self.produce = Product()
@@ -14,14 +15,12 @@ class Descriptor:
         setattr(self, item, value)
         return value
 
-    def method(self):
-        raise NotImplementedError
 
+class Method(LazyAttr):
 
-class Method(Descriptor):
     def __init__(self):
         super().__init__()
-        self.lock = Lock()
+        self.lock = RLock()
 
     def __getattr__(self, item):
         return super().__getattr__(item)
@@ -37,18 +36,16 @@ class Method(Descriptor):
             self.produce.poster()
 
     def put(self, request_body, id):
+
         with self.lock:
             require = json.loads(request_body.decode('utf-8'))
-
-            self.produce.fname = require.get('fname')
-            self.produce.lname = require.get('lname')
-            self.produce.size = require.get('size')
-            self.produce.put(id)
+            self.produce.fname = require.get("fname")
+            self.produce.lname = require.get("lname")
+            self.produce.size = require.get("size")
+            self.produce.put(id=id)
 
     def getall(self):
-        require = self.produce.geter()
-        return json.dumps({'data': require})
+        return json.dumps({'data': self.produce.geter()})
 
     def getter(self, id):
-        require = self.produce.getan(id)
-        return json.dumps({'data': require})
+        return json.dumps({'data': self.produce.getan(id)})

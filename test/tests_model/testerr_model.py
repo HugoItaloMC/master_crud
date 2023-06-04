@@ -3,7 +3,7 @@ import sqlite3
 from tests_model.test_db_session import DataBase
 
 
-class Model:
+class Model(object):
 
     def __init__(self):
         self.session = DataBase()
@@ -29,16 +29,15 @@ class Product(Model):
 
     def poster(self):
         query = 'INSERT INTO produto (fname, lname, size) VALUES("%s", "%s", "%d");' % (
-            self.fname, self.lname, int(self.size))
+            self.fname, self.lname, float(self.size))
         self.session.execute_query(query)
 
     def put(self, id: int):
-        query = 'UPDATE produto SET fname = "%s", lname = "%s", size = "%d" WHERE id=%d;' % (
-            self.fname, self.lname, int(self.size), id)
+        query = 'UPDATE produto SET fname = "{}", lname = "{}", size = "{}" WHERE id={};'.format(self.fname, self.lname, int(self.size), id)
         self.session.execute_query(query)
 
     def getan(self, id: int):
-        query = 'SELECT * FROM produto WHERE id="%d"' % id
+        query = 'SELECT * FROM produto WHERE id="%d"' % int(id)
         return self.session.execute_query(query)
 
     def geter(self):

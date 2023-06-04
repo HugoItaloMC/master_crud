@@ -5,7 +5,7 @@ from testerr_http_handler import PostHandler, PutHandler, GetHandler, GetanHandl
 
 
 class Routes(Application):
-    # Insert behaviours in end-points from handlers
+    # Insert resource in end-points from handlers
 
     def __init__(self):
         Application.__init__(self)

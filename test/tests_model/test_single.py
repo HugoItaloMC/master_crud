@@ -1,22 +1,19 @@
 class Singleton(type):
-    # Controle de instâncias de objetos
+    # Create type for instance control
 
     def __new__(meta, name, bases, class_dict):
+        # Behaviour to entailsen in childer object
         return type.__new__(meta, name, bases, class_dict)
 
     def __call__(cls, *args, **kwargs):
-        # To behaviours from singletons patterns in objects Python
-        # Know here is writening from magic method `__call__`
+        # Lonely instance
         if not hasattr(cls, '__instance'):
             cls.__instance = super(Singleton, cls).__call__(*args, **kwargs)
         return cls.__instance
 
-
 if __name__ == '__main__':
     class Meta(metaclass=Singleton):
         ...
-
     inst1 = Meta()
     inst2 = Meta()
-    print(id(inst1),
-          id(inst2))
+    print(id(inst1), id(inst2))

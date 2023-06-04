@@ -9,7 +9,7 @@ class Model(object):
         self.session = DataBase()
 
     def __getattr__(self, attr):
-        # To insert attr in execution
+        # Lazy Attr to models
         valur = attr
         setattr(self, attr, valur)
         return valur

@@ -1,11 +1,25 @@
-PROJETO CASO DE ESTUDOS PARA APLICAR ESTUDO DE PADRÕES DE PROJETOS:
+PROJETO PARA CASO DE ESTUDOS:
+ -- APLICAR ESTUDOS DE PADRÕES DE PROJETOS E BOAS PRÁTIAS EM PYTHON:
 
  Para esse estudo pretendo seguir os seguintes passos:
-  -  Entidades (Modelos)
-  -  Transisão de dados (schemas)
-  -  Controles de servicos em dados (controller)
-  -  Apresentacão e manipulacão de dados (views/routes)
+  -  Models:
+  .. Camada modelos contendo um objeto base que administra os atributos
+  de forma dinámica e um objeto que gerencia uma entidade SQL
+  que herda deste objeto base.
+     Um handler gerenciador ao banco de dados que isola suas instâncias
+  e que serve de `cursor` para o objeto que gerencia a entidade SQL
+
+  - Reposurce:
+  .. Contém recursos para controlar comportamentos de requisicões e gerenciamento
+  ao banco de dados
+
+  - Config:
+  .. Estrutura e interfaces de objetos gerenciadores de requisicões
+
+  - App:
+  .. Objetos de mais alto nível, administracão de rotas(url's) e gerenciamento do
+  controles e requisicões ao banco de dados via API REST.
 
    Cada camada do projeto vai ter seus sub-diretórios contendo seus respectivos módulos, pretendo
 nomear os diretórios, módulos, classes e métodos com maior abstracão possível, para assim atender
-saber para qual o objetivo do mesmo.
+e saber para qual o objetivo do mesmo.

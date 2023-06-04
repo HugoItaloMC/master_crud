@@ -3,7 +3,7 @@ from typing import Any
 from tornado.httputil import HTTPServerRequest
 from tornado.web import RequestHandler
 
-from app.api import API
+from resource.api import API
 
 
 class Handler(RequestHandler):

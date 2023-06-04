@@ -1,6 +1,6 @@
 import json
 
-from config.resource import APIMeta
+from config.controller import APIMeta
 
 
 class API(APIMeta):
@@ -12,7 +12,6 @@ class API(APIMeta):
         super().__getattr__(attr)
 
     # Methods follow http requests
-
     def post(self, request_body):
         require = json.loads(request_body.decode('utf-8'))
 
@@ -31,13 +30,11 @@ class API(APIMeta):
         self.produce.put(id)
 
     def getter(self, id):
-       require = self.produce.getan(id)
-       return json.dumps({'data': require})
+        return json.dumps({'data': self.produce.getan(id)})
 
     def getall(self):
         # Recuperar dados do DB
-        require = self.produce.geter()
-        return json.dumps({"Data": require})
+        return json.dumps({"Data": self.produce.geter()})
 
     def remove(self, id):
         require = self.produce.delete(id)

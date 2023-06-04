@@ -1,6 +1,6 @@
 import sqlite3
 
-from config.single import Singleton
+from config import Singleton
 
 # Configuracão com o banco de dados
 

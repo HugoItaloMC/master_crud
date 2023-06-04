@@ -1,8 +1,9 @@
 from tornado.web import Application
-from app.main import Getter, Post, Put, Delete, Getan
+from app.rest import Getter, Post, Put, Delete, Getan
 
 
 class Routes(Application):
+
     def __init__(self):
 
         handlers = [
