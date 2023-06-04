@@ -20,7 +20,7 @@ class Product(Model):
 
     def put(self, id: int):
         query = 'UPDATE produto SET fname = "%s", lname = "%s", size = "%d" WHERE id=%d;' % (
-            self.fname, self.lname, int(self.size), id)
+            self.fname, self.lname, int(self.size), int(id))
         self.session.execute_query(query)
 
     def getan(self, id: int):
