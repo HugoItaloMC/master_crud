@@ -1,18 +1,20 @@
-# End points to application
-from tornado.web import Application
+from flask import Flask
+from flask_restful import Api
 
-from testerr_http_handler import PostHandler, PutHandler, GetHandler, GetanHandler
+from testerr_handler import (PostHandler, PutHandler, GetHandler, GetanHandler)
+app = Flask(__name__)
 
 
-class Routes(Application):
-    # Insert resource in end-points from handlers
+class Router:
 
-    def __init__(self):
-        Application.__init__(self)
-        handlers = [
-            (r'/insert', PostHandler),
-            (r'/update/(\d+)', PutHandler),
-            (r'/home', GetHandler),
-            (r'/home/(\d+)', GetanHandler)
-        ]
-        Application.__init__(self, handlers)
+    def args_point(self):
+
+        parser_router = Api(app)
+        parser_router.add_resource(GetHandler, '/home')
+        parser_router.add_resource(GetanHandler, '/home/<int:id>')
+        parser_router.add_resource(PostHandler, '/insert')
+        parser_router.add_resource(PutHandler, '/update/<int:id>')
+
+
+begin = Router()
+begin.args_point()

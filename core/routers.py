@@ -1,5 +1,5 @@
 from tornado.web import Application
-from app.rest import RestPut, RestPost, RestGetAn, RestGetAll
+from core.rest import RestPut, RestPost, RestGetAn, RestGetAll
 
 
 class Routes(Application):

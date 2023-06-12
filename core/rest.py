@@ -1,4 +1,4 @@
-from app.handler import Handler
+from core.handler import Handler
 from resource.common import Post, Put, GetAn, GetAll
 
 

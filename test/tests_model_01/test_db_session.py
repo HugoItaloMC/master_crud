@@ -1,6 +1,6 @@
 import sqlite3
 
-from tests_model.test_single import Singleton
+from tests_model_01.test_single import Singleton
 
 
 class DataBase(metaclass=Singleton):
@@ -9,7 +9,7 @@ class DataBase(metaclass=Singleton):
     def __init__(self):
         self.dbset = sqlite3.connect('storage.db')
 
-    def execute_query(self, query):
+    def __call__(self, query):
         cursor = self.dbset.cursor()
         cursor.execute(query)
         results = cursor.fetchall()

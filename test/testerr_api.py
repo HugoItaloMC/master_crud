@@ -2,11 +2,11 @@ import json
 from io import StringIO
 from threading import RLock
 
-from tests_model.testerr_model import Product
+from tests_model_01.testerr_model import Product
 
 
-class LazyAttr:
-
+class APIAsset:
+    # The Config API
     def __init__(self):
         self.produce = Product()
 
@@ -16,7 +16,7 @@ class LazyAttr:
         return value
 
 
-class Method(LazyAttr):
+class API(APIAsset):
 
     def __init__(self):
         super().__init__()

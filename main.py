@@ -1,5 +1,5 @@
 from tornado import ioloop, httpserver
-from app.routers import Routes
+from core.routers import Routes
 
 
 def main():

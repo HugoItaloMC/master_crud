@@ -5,11 +5,11 @@ from typing import Any
 from tornado.httputil import HTTPServerRequest
 from tornado.web import RequestHandler
 
-from testerr_api import Method
+from test.tests_core.testerr_api import Method
 
 
 class Handler(RequestHandler):
-
+    # The config `request handler`
     def __init__(self, application: "Application",
                  request: HTTPServerRequest,
                  **kwargs: Any):
