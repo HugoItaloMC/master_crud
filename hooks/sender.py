@@ -3,7 +3,7 @@ from resource.api import API
 
 
 def sender_header(content_type):
-    METHOD_2INSERT = ['POST', 'PUT']  # Is content constant,  methods way for insert data
+    METHOD_2INSERT = ['POST', 'PUT', 'DELETE']  # Is content constant,  methods way for insert data
     PATH_2GET = ['home', 'product']  # Path's to response data
 
     api = API()  # Requests & Responses
@@ -19,7 +19,7 @@ def sender_header(content_type):
                 while line == op:
                     label = request.get_json(force=True) or request.get_json() or request.form.to_dict()
                     fields = request.json if content_json else label
-                    return api.post(fields) if op == 'POST' else api.put(fields)  # Base case condition
+                    return api.post(body=fields) if op == 'POST' else api.put(body=fields) if op == 'PUT' else api.remove(body=fields)  # Base case condition
 
         elif op == 'GET':
             for line in PATH_2GET:

@@ -31,12 +31,7 @@ def sender_header(content_type):
                     label = request.get_json(force=True) or request.get_json() or request.form.to_dict()
                     fields = request.json if content_json else label
                     # Base case condition
-                    if op == 'POST':
-                        return api.post(fields)
-                    elif op == 'PUT':
-                        return api.put(fields)
-                    elif op == 'DELETE':
-                        return api.remove(fields)
+                    return api.post(fields) if op == 'POST' else api.put(fields) if op == 'PUT' else api.remove(body=fields)
 
         elif op == 'GET':
             for line in PATH_2GET:

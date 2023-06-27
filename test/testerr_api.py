@@ -48,9 +48,8 @@ class API(APIAsset):
     def getall(self):
         return self.produce.geter()
 
-    def getter(self, id):
-        return self.produce.getan(id)
+    def getter(self, body):
+        return self.produce.getan(body['id'])
 
     def remove(self, body):
-        id = body['id']
-        return self.produce.delete(id)
+        return self.produce.delete(body['id'])

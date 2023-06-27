@@ -28,6 +28,6 @@ class Product(Model):
         return self.session(query)
 
     def delete(self, id):
-        query = 'DELETE FROM produto WHERE id = "%d"' % id
+        query = 'DELETE FROM produto WHERE id="%d"' % int(id)
         self.session(query)
 

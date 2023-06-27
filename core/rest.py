@@ -37,4 +37,8 @@ class RestGetAn(Handler):
 
 
 class RestDelete(Handler):
-    ...
+    _method = Method()
+
+    def delete(self):
+        self._method(request.headers.get('Content-type'))
+        return jsonify({"STATUS": 200})
