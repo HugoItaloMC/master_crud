@@ -9,7 +9,7 @@ class DataBase(metaclass=Singleton):
     def __init__(self):
         self.dbset = sqlite3.connect('storage.db')
 
-    def execute_query(self, query):
+    def __call__(self, query):
         cursor = self.dbset.cursor()
         cursor.execute(query)
         results = cursor.fetchall()

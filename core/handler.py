@@ -1,13 +1,12 @@
-from typing import Any
-
-from tornado.httputil import HTTPServerRequest
-from tornado.web import RequestHandler
+from flask_restx import Resource
 
 from resource.api import API
+from hooks.sender import sender_header
 
 
-class Handler(RequestHandler):
+class Handler(Resource):
 
-    def __init__(self, application: "Application", request: HTTPServerRequest, **kwargs: Any):
-        super().__init__(application, request, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.api = API()
+        self.api.sender_header = sender_header

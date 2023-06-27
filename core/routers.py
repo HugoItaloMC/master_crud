@@ -1,15 +1,21 @@
-from tornado.web import Application
-from core.rest import RestPut, RestPost, RestGetAn, RestGetAll
+from flask import Flask
+from flask_restx import Api
+
+from core.rest import RestPut, RestPost, RestGetAn, RestGetAll, RestDelete
+app = Flask(__name__)
 
 
-class Routes(Application):
+class Router:
 
-    def __init__(self):
+    @staticmethod
+    def args_point():
+        parser_router = Api(app)
+        parser_router.add_resource(RestGetAll, '/home', methods=['GET'])
+        parser_router.add_resource(RestGetAn, '/product', methods=['GET'])
+        parser_router.add_resource(RestPost, '/insert', methods=['POST'])
+        parser_router.add_resource(RestPut, '/update', methods=['PUT'])
+        parser_router.add_resource(RestDelete, '/delete', methods=['DELETE'])
 
-        handlers = [
-            (r'/home', RestGetAll),
-            (r'/home/(\d+)', RestGetAn),
-            (r'/produto/new', RestPost),
-            (r'/produto/update/(\d+)', RestPut)
-        ]
-        Application.__init__(self, handlers)
+
+begin = Router()
+begin.args_point()

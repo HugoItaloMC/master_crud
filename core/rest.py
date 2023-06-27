@@ -1,42 +1,40 @@
+from flask import request, jsonify
+
 from core.handler import Handler
-from resource.common import Post, Put, GetAn, GetAll
+from resource.common import Method
 
 
 class RestPost(Handler):
-    _post = Post()
+    _method = Method()
 
     def post(self):
-        # Post
-        self._post(self.request.body)
+        self._method(request.headers.get('Content-type'))
+        return jsonify({"OK": 200})
 
 
 class RestPut(Handler):
-    _put = Put()
 
-    def put(self, id):
-        self._put(id)
+    _method = Method()
+
+    def put(self):
+
+        self._method(request.headers.get('Content-type'))
+        return jsonify({"STATUS": 200})
 
 
 class RestGetAll(Handler):
-    _getall = GetAll()
+    _method = Method()
 
     def get(self):
-        self._getall(self.api.getall())
+        return self._method(request.headers.get("Content-type"))
 
 
 class RestGetAn(Handler):
-    _getan = GetAn()
+    _method = Method()
 
-    def get(self, id):
-        self._getan(id)
+    def get(self):
+        return self._method(request.headers.get("Content-type"))
 
 
-class Delete(Handler):
-
-    def delete(self, id):
-        url_parser = self.request.path.split('/')
-        id_index = url_parser.index('produto') + 2
-        id = int(url_parser[id_index])
-
-        # Drop Data
-        self.api.remove(id)
+class RestDelete(Handler):
+    ...

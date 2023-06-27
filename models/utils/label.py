@@ -2,14 +2,22 @@
 from models.utils.db_session import DataBase
 
 
+
 class Model(object):
-    # Model object
+    def __getattr__(self, item):
+        # Lazy attr
+        value = item
+        setattr(self, item, value)
+        return value
 
     def __init__(self):
-        self.session = DataBase()
+        self.__db = DataBase()
 
-    def __getattr__(self, attr):
-        # Lazy Attr to models
-        valur = attr
-        setattr(self, attr, valur)
-        return valur
+    @property
+    def session(self):
+        return self.__db
+
+    @session.setter
+    def session(self, query):
+        self.session(query)
+

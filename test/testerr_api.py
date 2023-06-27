@@ -1,13 +1,14 @@
 import json
 from threading import RLock
 
-from flask import request
+from flask import request, jsonify
 
 from tests_model_01.testerr_model import Product
 
 
 class APIAsset:
     # The Config API
+
     def __init__(self):
         self.produce = Product()
 
@@ -26,16 +27,7 @@ class API(APIAsset):
     def __getattr__(self, item):
         return super().__getattr__(item)
 
-    def header(self, content_type):
-        xstr = lambda ss: ss or ""
-        content_json = "json" in xstr(content_type)
-        while op := request.method:
-            if op == 'POST':
-                label = request.get_json(force=True) or request.get_json() or request.form.to_dict()
-                fields = request.json if content_json else label
-                return self._post(fields)
-
-    def _post(self, request_json):
+    def post(self, request_json):
 
         with self.lock:
             self.produce.create_table()
@@ -44,17 +36,21 @@ class API(APIAsset):
             self.produce.size = int(request_json.get('size'))
             self.produce.poster()
 
-    def put(self, request_body, id):
+    def put(self, request_json):
 
         with self.lock:
-            require = request_body.decode('utf-8')
-            self.produce.fname = require.get("fname")
-            self.produce.lname = require.get("lname")
-            self.produce.size = require.get("size")
+            id = int(request_json.get("id"))
+            self.produce.fname = request_json.get("fname")
+            self.produce.lname = request_json.get("lname")
+            self.produce.size = request_json.get("size")
             self.produce.put(id=id)
 
     def getall(self):
-        return json.dumps({'data': self.produce.geter()})
+        return self.produce.geter()
 
     def getter(self, id):
-        return json.dumps({'data': self.produce.getan(id)})
+        return self.produce.getan(id)
+
+    def remove(self, body):
+        id = body['id']
+        return self.produce.delete(id)

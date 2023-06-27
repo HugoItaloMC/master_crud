@@ -1,4 +1,4 @@
-import json
+from threading import RLock
 
 from config.controller import APIMeta
 
@@ -7,34 +7,34 @@ class API(APIMeta):
 
     def __init__(self):
         super().__init__()
+        self.lock = RLock()
 
-    def __getattr__(self, attr):
-        super().__getattr__(attr)
+    def __getattr__(self, item):
+        return super().__getattr__(item)
 
-    # Methods follow http requests
-    def post(self, request_body):
-        require = json.loads(request_body.decode('utf-8'))
+    def post(self, request_json):
 
-        self.produce.create_table()
-        self.produce.fname = require.get('fname')
-        self.produce.lname = require.get('lname')
-        self.produce.size = require.get('size')
-        self.produce.poster()
+        with self.lock:
+            self.produce.create_table()
+            self.produce.fname = request_json.get('fname')
+            self.produce.lname = request_json.get('lname')
+            self.produce.size = int(request_json.get('size'))
+            self.produce.poster()
 
-    def put(self, request_body, id):
-        require = json.loads(request_body.decode('utf-8'))
+    def put(self, request_json):
 
-        self.produce.fname = require.get('fname')
-        self.produce.lname = require.get('lname')
-        self.produce.size = require.get('size')
-        self.produce.put(id)
-
-    def getter(self, id):
-        return json.dumps({'data': self.produce.getan(id)})
+        with self.lock:
+            id = int(request_json.get("id"))
+            self.produce.fname = request_json.get("fname")
+            self.produce.lname = request_json.get("lname")
+            self.produce.size = request_json.get("size")
+            self.produce.put(id=id)
 
     def getall(self):
-        # Recuperar dados do DB
-        return json.dumps({"Data": self.produce.geter()})
+        return self.produce.geter()
 
-    def remove(self, id):
-        require = self.produce.delete(id)
+    def getter(self, id):
+        return self.produce.getan(id)
+
+    def remove(self):
+        ...

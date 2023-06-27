@@ -2,12 +2,9 @@ from models.utils.label import Model
 
 
 class Product(Model):
-    # The product by model
-    def __init__(self):
-        super(__class__, self).__init__()
 
-    def __getattr__(self, attr):
-        return super().__getattr__(attr)
+    def __getattr__(self, item):
+        return super().__getattr__(item)
 
     def create_table(self):
         query = f'CREATE TABLE IF NOT EXISTS produto (id INTEGER PRIMARY KEY AUTOINCREMENT, fname TEXT, lname TEXT, size INTEGER);'
@@ -15,16 +12,15 @@ class Product(Model):
 
     def poster(self):
         query = 'INSERT INTO produto (fname, lname, size) VALUES("%s", "%s", "%d");' % (
-            self.fname, self.lname, int(self.size))
+            self.fname, self.lname, float(self.size))
         self.session(query)
 
     def put(self, id: int):
-        query = 'UPDATE produto SET fname = "%s", lname = "%s", size = "%d" WHERE id=%d;' % (
-            self.fname, self.lname, int(self.size), int(id))
+        query = 'UPDATE produto SET fname = "{}", lname = "{}", size = "{}" WHERE id={};'.format(self.fname, self.lname, int(self.size), id)
         self.session(query)
 
     def getan(self, id: int):
-        query = 'SELECT * FROM produto WHERE id="%d"' % id
+        query = 'SELECT * FROM produto WHERE id="%d"' % int(id)
         return self.session(query)
 
     def geter(self):
@@ -32,5 +28,6 @@ class Product(Model):
         return self.session(query)
 
     def delete(self, id):
-        query = 'DELETE FROM produto WHERE id="%d"' % id
+        query = 'DELETE FROM produto WHERE id = "%d"' % id
         self.session(query)
+

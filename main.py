@@ -1,11 +1,8 @@
-from tornado import ioloop, httpserver
-from core.routers import Routes
+from core.routers import app
 
 
 def main():
-    http_server = httpserver.HTTPServer(Routes())
-    http_server.listen(5000)
-    ioloop.IOLoop.instance().start()
+    app.run(port=9090, debug=True)
 
 
 if __name__ == '__main__':

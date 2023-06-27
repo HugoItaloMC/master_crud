@@ -9,7 +9,15 @@ class Model(object):
         return value
 
     def __init__(self):
-        self.session = DataBase()
+        self.__db = DataBase()
+
+    @property
+    def session(self):
+        return self.__db
+
+    @session.setter
+    def session(self, query):
+        self.session(query)
 
 
 class Product(Model):
@@ -19,40 +27,44 @@ class Product(Model):
 
     def create_table(self):
         query = f'CREATE TABLE IF NOT EXISTS produto (id INTEGER PRIMARY KEY AUTOINCREMENT, fname TEXT, lname TEXT, size INTEGER);'
-        self.session.execute_query(query)
+        self.session(query)
 
     def poster(self):
         query = 'INSERT INTO produto (fname, lname, size) VALUES("%s", "%s", "%d");' % (
             self.fname, self.lname, float(self.size))
-        self.session.execute_query(query)
+        self.session(query)
 
     def put(self, id: int):
         query = 'UPDATE produto SET fname = "{}", lname = "{}", size = "{}" WHERE id={};'.format(self.fname, self.lname, int(self.size), id)
-        self.session.execute_query(query)
+        self.session(query)
 
     def getan(self, id: int):
         query = 'SELECT * FROM produto WHERE id="%d"' % int(id)
-        return self.session.execute_query(query)
+        return self.session(query)
 
     def geter(self):
         query = 'SELECT * FROM produto'
-        return self.session.execute_query(query)
+        return self.session(query)
 
     def delete(self, id):
-        query = 'DELETE FROM produto WHERE id = "%d"' % id
-        self.session.execute_query(query)
+        query = 'DELETE FROM produto WHERE id="%d"' % int(id)
+        self.session(query)
 
 
 if __name__ == '__main__':
+
     produto = Product()
+
+    """"""
+
     # Test 1 Create Table : OK
     #produto.create_table()
 
     # Test 2 Post  : OK
-    produto.fname = 'Nike'
-    produto.lname = 'Tênis'
-    produto.size = '40'
-    produto.poster()
+    #produto.fname = 'Nike'
+    #produto.lname = 'Tênis'
+    #produto.size = '40'
+    #produto.poster()
 
     #  Test 3 Put : OK
     #produto.fname = 'Adidas'
@@ -67,4 +79,6 @@ if __name__ == '__main__':
     #print(produto.getan(1))
 
     # Test 6 Delete : OK
-    # produto.delete(1)
+    #produto.delete(1)
+
+    """"""
