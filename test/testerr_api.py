@@ -1,9 +1,6 @@
-import json
 from threading import RLock
 
-from flask import request, jsonify
-
-from tests_model_01.testerr_model import Product
+from test.models.tests_01.testerr_model import Product
 
 
 class APIAsset:
